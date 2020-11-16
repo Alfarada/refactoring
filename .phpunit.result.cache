@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":298:{a:2:{s:7:"defects";a:3:{s:7:"Warning";i:6;s:31:"Tests\DummyTest::it_assert_true";i:3;s:48:"Test\HtmlElementTest::it_generates_html_elements";i:2;}s:5:"times";a:3:{s:7:"Warning";d:0.007;s:31:"Tests\DummyTest::it_assert_true";d:0.009;s:48:"Test\HtmlElementTest::it_generates_html_elements";d:0.053;}}}
