@@ -10,9 +10,18 @@ class HtmlElementTest extends TestCase
     function it_checks_if_a_elememt_is_void_or_not()
     {
         $this->assertFalse((new HtmlElement('p'))->isVoid());
-
+        
         $this->assertTrue((new HtmlElement('img'))->isVoid());
     }
+    
+    /** @test */
+    function it_generates_attributes()
+    {
+        $element = new HtmlElement('span', ['class' => 'a_span', 'id' => 'the_span']);
+
+        $this->assertSame(' class="a_span" id="the_span"', $element->attributes());
+    }
+    
 
     /** @test */
     function it_generates_a_paragraph_with_content()

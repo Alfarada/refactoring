@@ -33,33 +33,36 @@ class HtmlElement
 
     public function open(): string 
     {
-
-        if (!empty($this->attributes)) {
-
-            $htmlAttributes = '';
-
-            foreach ($this->attributes as $attribute => $value) {
-
-                if (is_numeric($attribute)) {
-
-                    $htmlAttributes .= ' ' . $value;
-                } else {
-
-                    $htmlAttributes .= ' ' . $attribute . '="' . htmlentities($value, ENT_QUOTES, 'UTF-8') . '"';
-                }
-            }
-            // Abrir etiqueta con atributo
-
-            $result = '<' . $this->name . $htmlAttributes . '>';
-        } else {
-
-
-            //Abrir etiqueta sin atributos
-
-            $result = '<' . $this->name . '>';
-        }
+        $result = !empty($this->attributes)
+            ? $result = '<' . $this->name . $this->attributes() . '>'
+            : $result = '<' . $this->name . '>';
 
         return $result;
+    }
+
+    public function attributes(): string
+    {   
+        $htmlAttributes = '';
+
+        foreach ($this->attributes as $attribute => $value) {
+            
+            $htmlAttributes .= $this->renderAttributes($attribute, $value);
+        }
+
+        return $htmlAttributes;
+    }
+
+    protected function renderAttributes($attribute, $value)
+    {
+        if (is_numeric($attribute)) {
+            
+            $htmlAttributes = ' ' . $value;
+        } else {
+            
+            $htmlAttributes = ' ' . $attribute . '="' . htmlentities($value, ENT_QUOTES, 'UTF-8') . '"';
+        }
+
+        return $htmlAttributes;
     }
 
     
