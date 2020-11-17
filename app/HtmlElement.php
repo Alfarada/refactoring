@@ -17,23 +17,36 @@ class HtmlElement
 
     public function render()
     {
-        // Si el elemento tiene atributos
+        $result = $this->open();
+
+        if ($this->isVoid()) {
+
+            return $result;
+        }
+
+        $result .= $this->content();
+
+        $result .= $this->close();
+
+        return $result;
+    }
+
+    public function open(): string 
+    {
 
         if (!empty($this->attributes)) {
 
             $htmlAttributes = '';
 
             foreach ($this->attributes as $attribute => $value) {
-                
+
                 if (is_numeric($attribute)) {
-                    
-                    $htmlAttributes .= ' '.$value;
-                
+
+                    $htmlAttributes .= ' ' . $value;
                 } else {
-                    
+
                     $htmlAttributes .= ' ' . $attribute . '="' . htmlentities($value, ENT_QUOTES, 'UTF-8') . '"';
                 }
-
             }
             // Abrir etiqueta con atributo
 
@@ -46,21 +59,22 @@ class HtmlElement
             $result = '<' . $this->name . '>';
         }
 
-        // Si el elemento es Void
-
-        if (in_array($this->name, ['br', 'hr', 'img', 'img', 'input'])) {
-            // Retornar el resultado
-            return $result;
-        }
-
-        // Imprimir el contenido
-
-        $result .= htmlentities($this->content, ENT_QUOTES, 'UTF-8');
-
-        // Cerrar la etiqueta
-
-        $result .= '</' . $this->name . '>';
-
         return $result;
+    }
+
+    
+    public function isVoid(): bool
+    {
+        return in_array($this->name, ['br', 'hr', 'img', 'img', 'input']);
+    }
+    
+    public function content(): string
+    {
+        return htmlentities($this->content, ENT_QUOTES, 'UTF-8');
+    }
+
+    public function close(): string
+    {
+        return '</' . $this->name . '>';
     }
 }
