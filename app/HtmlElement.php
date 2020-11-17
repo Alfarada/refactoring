@@ -17,18 +17,10 @@ class HtmlElement
 
     public function render()
     {
-        $result = $this->open();
+        return $this->isVoid()
+            ? $this->open()
+            : $this->open().$this->content().$this->close();
 
-        if ($this->isVoid()) {
-
-            return $result;
-        }
-
-        $result .= $this->content();
-
-        $result .= $this->close();
-
-        return $result;
     }
 
     public function open(): string
@@ -37,22 +29,20 @@ class HtmlElement
     }
 
     public function attributes(): string
-    {
-        $htmlAttributes = '';
+    {   
+        return array_reduce(
+            array_keys($this->attributes),
+            fn($result, $attribute) => $result . $this->renderAttributes($attribute),
+            ''
+        );
 
-        foreach ($this->attributes as $attribute => $value) {
-
-            $htmlAttributes .= $this->renderAttributes($attribute, $value);
-        }
-
-        return $htmlAttributes;
     }
 
-    protected function renderAttributes($attribute, $value)
+    protected function renderAttributes($attribute)
     {
         return is_numeric($attribute)
-            ? ' ' . $value
-            : ' ' . $attribute . '="' . htmlentities($value, ENT_QUOTES, 'UTF-8') . '"';
+            ? ' ' . $this->attributes[$attribute]
+            : ' ' . $attribute . '="' . htmlentities($this->attributes[$attribute], ENT_QUOTES, 'UTF-8') . '"';
     }
 
 
