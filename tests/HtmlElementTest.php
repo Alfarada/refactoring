@@ -1,15 +1,55 @@
-<?php 
+<?php
 
-namespace Test;
+namespace Tests;
 
-use Tests\TestCase;
+use App\HtmlElement;
 
 class HtmlElementTest extends TestCase
 {
     /** @test */
-    public function it_generates_html_elements()
+    function it_generates_a_paragraph_with_content()
     {
-        $this->markTestIncomplete();
+        $element = new HtmlElement('p', [], 'Este es el contenido de la etiqueta');
+
+        $this->assertSame(
+            '<p>Este es el contenido de la etiqueta</p>',
+            $element->render()
+        );
     }
 
+    /** @test */
+    function it_generates_a_paragraph_with_attribute()
+    {
+        $element = new HtmlElement('p', ['id' => 'my_paragraph'], 'Este es el contenido de la etiqueta');
+
+        $this->assertSame(
+            '<p id="my_paragraph">Este es el contenido de la etiqueta</p>',
+            $element->render()
+        );
+    }
+
+    /** @test */
+    function it_generates_a_paragraph_with_multiple_attribute()
+    {
+        $element = new HtmlElement(
+            'p',
+            ['id' => 'my_paragraph', 'class' => 'paragraph'],
+            'Este es el contenido de la etiqueta'
+        );
+
+        $this->assertSame(
+            '<p id="my_paragraph" class="paragraph">Este es el contenido de la etiqueta</p>',
+            $element->render());
+    }
+
+    /** @test */
+    function it_generate_elements_with_boolean_attribute()
+    {
+        $element = new HtmlElement('input', ['required']);
+
+        $this->assertSame(
+            '<input required>',
+            $element->render());
+    }
+    
 }
