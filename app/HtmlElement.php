@@ -34,8 +34,8 @@ class HtmlElement
     public function open(): string 
     {
         $result = !empty($this->attributes)
-            ? $result = '<' . $this->name . $this->attributes() . '>'
-            : $result = '<' . $this->name . '>';
+            ? '<' . $this->name . $this->attributes() . '>'
+            : '<' . $this->name . '>';
 
         return $result;
     }
