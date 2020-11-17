@@ -31,21 +31,17 @@ class HtmlElement
         return $result;
     }
 
-    public function open(): string 
+    public function open(): string
     {
-        $result = !empty($this->attributes)
-            ? '<' . $this->name . $this->attributes() . '>'
-            : '<' . $this->name . '>';
-
-        return $result;
+        return '<' . $this->name . $this->attributes() . '>';
     }
 
     public function attributes(): string
-    {   
+    {
         $htmlAttributes = '';
 
         foreach ($this->attributes as $attribute => $value) {
-            
+
             $htmlAttributes .= $this->renderAttributes($attribute, $value);
         }
 
@@ -54,23 +50,17 @@ class HtmlElement
 
     protected function renderAttributes($attribute, $value)
     {
-        if (is_numeric($attribute)) {
-            
-            $htmlAttributes = ' ' . $value;
-        } else {
-            
-            $htmlAttributes = ' ' . $attribute . '="' . htmlentities($value, ENT_QUOTES, 'UTF-8') . '"';
-        }
-
-        return $htmlAttributes;
+        return is_numeric($attribute)
+            ? ' ' . $value
+            : ' ' . $attribute . '="' . htmlentities($value, ENT_QUOTES, 'UTF-8') . '"';
     }
 
-    
+
     public function isVoid(): bool
     {
         return in_array($this->name, ['br', 'hr', 'img', 'img', 'input']);
     }
-    
+
     public function content(): string
     {
         return htmlentities($this->content, ENT_QUOTES, 'UTF-8');
